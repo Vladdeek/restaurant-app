@@ -3,11 +3,17 @@ from sqlalchemy.orm import relationship # для создания связи м�
 from .database import Base # все наше подключение которое которое на основе наших моделей создает таблицы в БД
 
 #To-Do
-class Todo(Base):
-    __tablename__ = "todo-table"
+class Menu(Base):
+    __tablename__ = "Menu"
 
     id = Column(Integer, primary_key=True, index=True)# index=True - поиск по этому столбцу
-    title = Column(String)
+    title = Column(String, index=True)
+    price = Column(Integer)
+    image_path = Column(String)  # Путь к изображению
+    description = Column(String)
+
+
+
     #user_name = Column(String, ForeignKey("users.name"))  # Теперь внешний ключ - имя пользователя
 
     # Связь с моделью User

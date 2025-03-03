@@ -1,0 +1,22 @@
+@font-face {
+	font-family: 'go3v2'; /* Имя шрифта */
+	src: url('../../assets/fonts/go3v2.ttf') format('truetype'); /* Путь к шрифту и его формат */
+	font-weight: normal;
+	font-style: normal;
+}
+header {
+	height: 50px;
+
+	background-color: black;
+}
+.logo {
+	font-family: 'go3v2', sans-serif;
+	font-size: 35px;
+	color: white;
+	cursor: default;
+}
+.auth-btn {
+	font-size: 20px;
+	color: white;
+	cursor: pointer;
+}

@@ -2,14 +2,17 @@ from pydantic import BaseModel
 
 
 #To-Do
-class TodoBase(BaseModel):
+class MenuBase(BaseModel):
     title: str
+    description: str
+    price: int 
+    image_path: str
     #user_name: str  # Убедитесь, что это поле может быть None
 
-class TodoCreate(TodoBase):
+class MenuCreate(MenuBase):
     pass
 
-class Todo(TodoBase):
+class Menu(MenuBase):
     id: int
     class Config:
         orm_mode = True

@@ -5,8 +5,8 @@ from passlib.context import CryptContext # библиотека для ХЕША 
 
 #импорт наших классов
 from .database import engine, session_local
-from .models import Base, Todo, User
-from .schemas import TodoCreate, Todo as DbTodo, UserCreate, User as DbUser
+from .models import Base, Menu, User
+from .schemas import MenuCreate, Menu as DbMenu, UserCreate, User as DbUser
 
 
 app = FastAPI()
@@ -47,43 +47,11 @@ def get_db():
     finally:
         db.close()
 
-#To-Do
-@app.post("/todo/", response_model=DbTodo)
-async def create_todo(todo: TodoCreate, db: Session = Depends(get_db)) -> DbTodo:   
-    # Получаем имя пользователя из запроса (должно быть передано вместе с задачей)
-    #user_name = todo.user_name
-
-    # Создаем объект задачи с именем пользователя
-    db_todo = Todo(title=todo.title) #user_name=user_name)
-
-    # Добавляем задачу в базу данных
-    db.add(db_todo)
-    db.commit()
-    db.refresh(db_todo)
-
-    return db_todo
-
-@app.get("/todo/", response_model=List[DbTodo])
-async def get_todos_by_user(username: str, db: Session = Depends(get_db)):
-    # Фильтруем задачи по имени пользователя
-    return db.query(Todo).filter(Todo.user_name == username).all()
-
-@app.delete("/todo/{id}")
-async def delete_todo(id: int, db: Session = Depends(get_db)):
-    todo = db.query(Todo).filter(Todo.id == id).first()
-    if todo is None:
-        raise HTTPException(status_code=404, detail="Задача не найдена")
-    
-    db.delete(todo)
-    db.commit()
-    return {"message": f"Задача с id {id} была удалена"}
-
-
 # Вывод всех данных
-@app.get("/alltodo/", response_model=List[DbTodo])
-async def todo(db: Session = Depends(get_db)):
-    todos = db.query(Todo).all()  # Получаем все задачи
-    return todos  # Возвращаем задачи
+@app.get("/get_menu/", response_model=List[DbMenu])
+async def menu(db: Session = Depends(get_db)):
+    menulist = db.query(Menu).all()  # Получаем все задачи
+    return menulist  # Возвращаем задачи
 
 
 
