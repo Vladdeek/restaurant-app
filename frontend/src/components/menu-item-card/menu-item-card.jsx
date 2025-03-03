@@ -1,6 +1,7 @@
 import React from 'react'
 import '../menu-item-card/menu-item-card.css'
 import addIcon from '../../assets/images/plus.svg'
+import BrushStroke from '../../assets/images/grunge-brush-stroke.png'
 
 const MenuItemCard = ({ name, price, image }) => {
 	return (
@@ -11,7 +12,10 @@ const MenuItemCard = ({ name, price, image }) => {
 					<p className='name'>{name}</p>
 				</div>
 				<div className='bottom d-flex justify-content-between align-items-center'>
-					<p className='price'>{price} ₽</p>
+					<div className='price-con'>
+						<img className='BrushStroke' src={BrushStroke} alt='...' />
+						<p className='price'>{price} ₽</p>
+					</div>
 					<button className='add-btn'>
 						<img
 							className='add-btn-img user-select-none'

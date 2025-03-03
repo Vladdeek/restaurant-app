@@ -36,12 +36,6 @@ p {
 	padding: 0 2.5%;
 	margin: 0 !important;
 }
-.price {
-	font-weight: 800;
-	font-size: 27px;
-	white-space: nowrap !important;
-	width: auto;
-}
 .name {
 	font-weight: 600;
 	font-size: 25px;
@@ -77,4 +71,26 @@ p {
 }
 .top {
 	margin-bottom: 2%;
+}
+.price-con {
+	height: 40px;
+	position: relative; /* Делаем контейнер позиционированным */
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	left: 22.5%;
+}
+.BrushStroke {
+	position: absolute;
+	height: 125%;
+	z-index: 0; /* Уходит на задний план */
+}
+.price {
+	color: white;
+	position: absolute;
+	font-weight: 800;
+	font-size: 27px;
+	white-space: nowrap;
+	width: auto;
+	z-index: 1; /* Поднимаем текст над картинкой */
 }
