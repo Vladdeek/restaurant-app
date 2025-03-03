@@ -13,6 +13,8 @@
 .image {
 	border-radius: 7px;
 	width: 100%;
+	aspect-ratio: 1 / 1;
+	object-fit: cover;
 }
 .add-btn {
 	background-color: rgb(222, 0, 0);

@@ -1,32 +1,33 @@
 import React, { useState, useEffect } from 'react'
-import MenuItemCard from './components/menu-item-card/menu-item-card'
+import MenuItemCard from '../components/menu-item-card/menu-item-card'
+import noImage from '../assets/images/no_image.png'
 
-const App = () => {
+const Menu = () => {
 	const [menu, setMenu] = useState([])
-	// Функция для загрузки задач из FastAPI
+
 	useEffect(() => {
 		const fetchMenu = async () => {
 			try {
 				const response = await fetch(`http://localhost:8000/get_menu/`)
 				const menuList = await response.json()
 
-				// Обновляем состояние tasks
+				// Обновляем состояние menu
 				setMenu(
 					menuList.map(menu => ({
 						title: menu.title,
-						description: menu.description,
 						price: menu.price,
-						image_path: menu.image_path,
+						image_path: menu.image_path ? `/menu/${menu.image_path}` : noImage,
 						id: menu.id,
 					}))
 				)
 			} catch (error) {
-				console.error('Ошибка загрузки задач:', error)
+				console.error('Ошибка загрузки меню:', error)
 			}
 		}
 
 		fetchMenu()
-	}, []) // [] означает, что эффект сработает только при первом рендере
+	}, [])
+
 	return (
 		<>
 			<div className='row'>
@@ -35,7 +36,7 @@ const App = () => {
 						key={index}
 						price={menu.price}
 						name={menu.title}
-						description={menu.description}
+						image={menu.image_path}
 					/>
 				))}
 			</div>
@@ -43,4 +44,4 @@ const App = () => {
 	)
 }
 
-export default App
+export default Menu
