@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import MenuItemCard from '../components/menu-item-card/menu-item-card'
-import noImage from '../assets/images/no_image.png'
-import Search from '../components/search/search'
+import noImage from '../assets/images/orig.png'
+import Carousel from '../components/Carousel/Carousel'
 
-const Menu = () => {
+const Main = () => {
 	const [search, setSearch] = useState('')
 	const [menu, setMenu] = useState([])
 
@@ -34,21 +34,10 @@ const Menu = () => {
 
 	return (
 		<>
-			<Search value={search} onChange={e => setSearch(e.target.value)} />
-			<div className='container'>
-				<div className='row '>
-					{menu.map((menu, index) => (
-						<MenuItemCard
-							key={index}
-							price={menu.price}
-							name={menu.title}
-							image={menu.image_path}
-						/>
-					))}
-				</div>
-			</div>
+			<img className='png-element mirrored' src='png-element.png' alt='...' />
+			<Carousel items={menu} />
 		</>
 	)
 }
 
-export default Menu
+export default Main

@@ -1,6 +1,7 @@
 from fastapi import FastAPI, HTTPException, Path, Query, Body, Depends
 from typing import Optional, List, Dict, Annotated
 from sqlalchemy.orm import Session
+from sqlalchemy import func
 from passlib.context import CryptContext # библиотека для ХЕША паролей 
 
 #импорт наших классов
@@ -18,7 +19,7 @@ from fastapi.middleware.cors import CORSMiddleware
 # Разрешаем все источники для теста
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Разрешаем все источники
+    allow_origins=["*"], 
     allow_credentials=True,
     allow_methods=["*"],  # Разрешаем все методы (GET, POST, и т.д.)
     allow_headers=["*"],  # Разрешаем все заголовки
@@ -52,6 +53,23 @@ def get_db():
 async def menu(db: Session = Depends(get_db)):
     menulist = db.query(Menu).all()  # Получаем все задачи
     return menulist  # Возвращаем задачи
+
+@app.get("/search_menu/")
+def search_menu(query: str = Query("", min_length=1), db: Session = Depends(get_db)):
+    query_lower = query.lower()  # Преобразуем запрос к нижнему регистру
+
+    # Получаем все элементы из базы данных
+    all_items = db.query(Menu).all()
+
+    # Ищем элементы, где название в нижнем регистре совпадает с запросом
+    results = [
+        item for item in all_items
+        if query_lower in item.title.lower()  # Сравниваем в нижнем регистре
+    ]
+
+    return results
+
+
 
 
 

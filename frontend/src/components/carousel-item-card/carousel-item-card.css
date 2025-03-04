@@ -1,0 +1,67 @@
+.card-con {
+	height: 350px;
+}
+.bg-card {
+	background-color: white;
+	border-radius: 15px;
+	box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.05);
+	width: 275px;
+	height: 150px;
+	z-index: -1;
+	transform: translateY(100px);
+	padding: 2.5%;
+}
+.cic-image {
+	height: 175px;
+	width: 175px;
+	object-fit: cover;
+	background-color: rgba(255, 0, 0, 0);
+	transform: translateY(-75px);
+}
+.cic-add-btn {
+	color: white;
+	background-color: rgb(222, 0, 0);
+	border: 1px solid transparent;
+	border-radius: 7px;
+	padding: 5px;
+	transform: translateY(-50px);
+	font-size: 12px;
+	font-weight: 600;
+	margin: 2.5%;
+	&:active {
+		color: black;
+		border: 1px solid black;
+		background-color: white;
+	}
+	transition: 0.1s;
+}
+.cic-name {
+	transform: translateY(-100px);
+	width: 250px;
+	white-space: normal;
+	font-weight: 500;
+}
+.cic-price-con {
+	height: 40px;
+	position: relative; /* Делаем контейнер позиционированным */
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	transform: translateY(-60px) translateX(-75px);
+}
+.cic-BrushStroke {
+	position: absolute;
+	height: 125%;
+	width: 125px;
+	object-fit: fill;
+	z-index: 0; /* Уходит на задний план */
+}
+.cic-price {
+	color: white;
+	position: absolute;
+	font-weight: 800;
+	font-size: 24px;
+	white-space: nowrap;
+	width: auto;
+	z-index: 1; /* Поднимаем текст над картинкой */
+}

@@ -1,0 +1,14 @@
+.carousel {
+	scroll-snap-type: x mandatory;
+	scroll-behavior: smooth;
+	white-space: nowrap;
+	overflow-x: auto;
+	overflow-y: hidden;
+
+	/* Прячем скроллбар */
+	scrollbar-width: none; /* Для Firefox */
+}
+
+.carousel::-webkit-scrollbar {
+	display: none; /* Для Chrome, Safari */
+}
