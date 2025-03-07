@@ -1,41 +1,82 @@
 import React, { useState, useEffect } from 'react'
-import MenuItemCard from '../components/menu-item-card/menu-item-card'
 import noImage from '../assets/images/orig.png'
 import Carousel from '../components/Carousel/Carousel'
+import '../styles/main.css'
+import AuthBtn from '../components/AuthBtn/AuthBtn'
+
+const rollIds = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] // ID роллов
 
 const Main = () => {
-	const [search, setSearch] = useState('')
 	const [menu, setMenu] = useState([])
 
 	useEffect(() => {
-		const fetchMenu = async () => {
-			try {
-				const url =
-					search.length > 0 ? `/search_menu/?query=${search}` : `/get_menu/`
+		const fetchRolls = async () => {
+			let newMenu = []
 
-				const response = await fetch(url)
-				const menuList = await response.json()
+			for (let i = 0; i < rollIds.length; i++) {
+				try {
+					const response = await fetch(`/get_menu/${rollIds[i]}`)
+					const menuItem = await response.json()
 
-				setMenu(
-					menuList.map(menu => ({
-						title: menu.title,
-						price: menu.price,
-						image_path: menu.image_path ? `/menu/${menu.image_path}` : noImage,
-						id: menu.id,
-					}))
-				)
-			} catch (error) {
-				console.error('Ошибка загрузки меню:', error)
+					newMenu.push({
+						title: menuItem.title,
+						price: menuItem.price,
+						image_path: menuItem.image_path
+							? `/menu/${menuItem.image_path}`
+							: noImage,
+						id: menuItem.id,
+					})
+
+					setMenu([...newMenu]) // Обновляем состояние
+
+					// Делаем паузу перед следующим роллом
+					await new Promise(resolve => setTimeout(resolve, 250))
+				} catch (error) {
+					console.error(`Ошибка при загрузке ролла ${rollIds[i]}:`, error)
+				}
 			}
 		}
 
-		fetchMenu()
-	}, [search])
+		fetchRolls()
+	}, [])
 
 	return (
 		<>
-			<img className='png-element mirrored' src='png-element.png' alt='...' />
-			<Carousel items={menu} />
+			<section id='main'>
+				<header className='links-header d-flex justify-content-end align-items-center user-select-none'>
+					<a href='#main'>Главная</a>
+					<a href='#about-us'>О нас</a>
+					<a href='#contacts'>Контакты</a>
+					<AuthBtn color='white' />
+				</header>
+
+				<div className='image-and-text d-flex'>
+					<img
+						className='png-element mirrored'
+						src='png-element.png'
+						alt='...'
+					/>
+					<div className='main-text-con user-select-none d-flex flex-column justify-content-center align-items-center'>
+						<h1 className='text-center text-uppercase'>Tunaki</h1>
+						<h2 className='text-center text-uppercase'>
+							океан удовольствия в каждом кусочке
+						</h2>
+						<h3 className='text-center'>
+							Свежие ингредиенты, мастерство шефов и настоящий вкус Японии – всё
+							это ждёт тебя в TUNAKI. Почувствуй гармонию в каждом ролле и
+							наслаждайся моментом! 🍣🥢
+						</h3>
+					</div>
+				</div>
+
+				<Carousel items={menu} />
+			</section>
+			<section id='about-us'>
+				<p>About us section</p>
+			</section>
+			<section id='contacts'>
+				<p>Contacts</p>
+			</section>
 		</>
 	)
 }

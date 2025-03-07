@@ -5,9 +5,9 @@ import BrushStroke from '../../assets/images/grunge-brush-stroke.png'
 
 const CarouselItemCard = ({ name, price, image }) => {
 	return (
-		<div className='card-con'>
+		<div className='card-con anim'>
 			<div className='bg-card'>
-				<button className='cic-add-btn'>Добавить</button>
+				<button className='cic-sale'>Скидка</button>
 				<img
 					className='cic-image user-select-none'
 					src={`${image}`}

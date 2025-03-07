@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import MenuItemCard from '../components/menu-item-card/menu-item-card'
 import noImage from '../assets/images/no_image.png'
 import Search from '../components/search/search'
+import Header from '../components/header/header'
 
 const Menu = () => {
 	const [search, setSearch] = useState('')
@@ -34,6 +35,7 @@ const Menu = () => {
 
 	return (
 		<>
+			<Header />
 			<Search value={search} onChange={e => setSearch(e.target.value)} />
 			<div className='container'>
 				<div className='row '>

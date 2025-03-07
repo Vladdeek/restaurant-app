@@ -69,7 +69,14 @@ def search_menu(query: str = Query("", min_length=1), db: Session = Depends(get_
 
     return results
 
-
+@app.get("/get_menu/{id}", response_model=DbMenu)
+async def get_menu_item(id: int, db: Session = Depends(get_db)):
+    menu_item = db.query(Menu).filter(Menu.id == id).first()
+    
+    if menu_item is None:
+        raise HTTPException(status_code=404, detail="Меню не найдено")
+    
+    return menu_item
 
 
 
