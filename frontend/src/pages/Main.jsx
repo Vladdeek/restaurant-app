@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react'
 import noImage from '../assets/images/orig.png'
 import Carousel from '../components/Carousel/Carousel'
 import AboutUsCard from '../components/AboutUsCard/AboutUsCard'
+import YandexMap from '../components/YandexMap/YandexMap'
+import ContactCard from '../components/ContactCard/ContactCard'
 import '../styles/main.css'
 
 const rollIds = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] // ID роллов
@@ -112,6 +114,14 @@ const Main = () => {
 			</section>
 			<section id='contacts'>
 				<p className='title text-center'>Контакты</p>
+				<div className='container d-flex justify-content-center'>
+					<div className='col-8 d-flex justify-content-center'>
+						<ContactCard ccimage='phone.svg' cctext='+7(990)000-00-00' />
+						<ContactCard ccimage='telegram.svg' cctext='@telegram' />
+					</div>
+				</div>
+				<p className='title text-center mb-2'>Мы здесь📍</p>
+				<YandexMap />
 			</section>
 		</>
 	)

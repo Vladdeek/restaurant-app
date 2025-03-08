@@ -1,0 +1,15 @@
+.contact-card {
+	height: 111px;
+	background-color: white;
+	border-radius: 15px;
+	padding: 1%;
+}
+.cc-image {
+	height: 100%;
+}
+.cc-text {
+	text-decoration: none;
+	color: black;
+	font-size: 28px;
+	cursor: pointer;
+}
