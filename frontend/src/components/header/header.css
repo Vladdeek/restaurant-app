@@ -12,5 +12,18 @@
 	font-family: 'go3v2', sans-serif;
 	font-size: 35px;
 	color: white;
-	cursor: default;
+	cursor: pointer;
+	text-decoration: none;
+}
+.header-btn {
+	height: 40px;
+}
+.cart-quantity {
+	position: absolute;
+	background-color: red;
+	color: white;
+	font-size: 14px;
+	padding: 0 7px;
+	border-radius: 50%;
+	transform: translateX(-10px) translateY(-5px);
 }

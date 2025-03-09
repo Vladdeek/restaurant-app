@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import noImage from '../assets/images/orig.png'
 import Carousel from '../components/Carousel/Carousel'
 import AboutUsCard from '../components/AboutUsCard/AboutUsCard'
@@ -44,14 +45,21 @@ const Main = () => {
 
 	return (
 		<>
+			<header className='links-header d-flex justify-content-end align-items-center user-select-none'>
+				<a className='header-link' href='#main'>
+					Главная
+				</a>
+				<a className='header-link' href='#about-us'>
+					О нас
+				</a>
+				<a className='header-link' href='#contacts'>
+					Контакты
+				</a>
+				<Link className='header-link' to='/menu'>
+					Меню
+				</Link>
+			</header>
 			<section id='main'>
-				<header className='links-header d-flex justify-content-end align-items-center user-select-none'>
-					<a href='#main'>Главная</a>
-					<a href='#about-us'>О нас</a>
-					<a href='#contacts'>Контакты</a>
-					<a href=''>Меню</a>
-				</header>
-
 				<div className='image-and-text d-flex'>
 					<img className='png-element1' src='png-element1.png' alt='...' />
 					<div className='main-text-con user-select-none d-flex flex-column justify-content-center align-items-center'>

@@ -1,4 +1,5 @@
 import random
+import ast
 from fastapi import FastAPI, HTTPException, Path, Query, Body, Depends
 from typing import Optional, List, Dict, Annotated
 from sqlalchemy.orm import Session
@@ -87,7 +88,7 @@ async def get_menu_item(id: int, db: Session = Depends(get_db)):
 
 @app.get("/get_orders/", response_model=List[DbOrders])
 async def orders(db: Session = Depends(get_db)):
-    orderlist = db.query(Orders).filter(Orders.status_id != 4).all()
+    orderlist = db.query(Orders).filter(Orders.status_id != 3).all()
     return orderlist  # Возвращаем задачи
 
 @app.get("/get_order/{id}", response_model=DbOrders)
@@ -97,21 +98,67 @@ async def get_order_item(id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Заказ не найдет")
     return order
 
+@app.get("/get_order_price/{item_ids}")
+async def get_order_price(item_ids: str, db: Session = Depends(get_db)):
+    arr = ast.literal_eval(item_ids)
+    # Получаем все товары по переданным ID
+    menu_items = db.query(Menu).filter(Menu.id.in_(arr)).all()
+    
+    if not menu_items:
+        raise HTTPException(status_code=404, detail="Товары не найдены")
+    
+    # Суммируем стоимость всех товаров
+    total_price = sum(item.price for item in menu_items)
+    
+    return {"total_price": total_price}
+
 @app.get("/get_done_orders/", response_model=List[DbOrders])
 async def done_orders(db: Session = Depends(get_db)):
-    doneorderlist = db.query(Orders).filter(Orders.status_id == 4).all()
+    doneorderlist = db.query(Orders).filter(Orders.status_id == 3).all()
     return doneorderlist  # Возвращаем задачи
+
+@app.put("/edit_order_status/{id}")
+async def edit_order_status(id: int, db: Session = Depends(get_db)):
+    # Получаем заказ по ID
+    order = db.query(Orders).filter(Orders.id == id).first()
+
+    if not order:
+        raise HTTPException(status_code=404, detail="Order not found")
+
+    # Если статус больше 3, выбрасываем ошибку
+    if order.status_id >= 3:
+        raise HTTPException(status_code=400, detail="Status cannot be changed. Maximum status reached")
+
+    # Увеличиваем статус на 1
+    order.status_id += 1
+
+    # Сохраняем изменения в базе данных
+    db.commit()
+    db.refresh(order)
+
+    return {"message": "Order status updated", "new_status": order.status_id}
+
 
 @app.post("/post_order/", response_model=DbOrders)
 async def post_order(order: OrdersCreate, db: Session = Depends(get_db)):
-    unique_order_num = generate_unique_order_number(db)  # Генерируем уникальный номер
-    
-    db_order = Orders(order_num=unique_order_num, status_id=order.status_id, orders=order.orders )  # Используем сгенерированный номер
+    unique_order_num = generate_unique_order_number(db)
+
+    # Создание объекта заказа
+    db_order = Orders(
+        order_num=unique_order_num,
+        status_id=order.status_id,
+        orders=order.orders,
+        total_price=order.total_price
+    )
+
     db.add(db_order)
     db.commit()
     db.refresh(db_order)
 
     return db_order
+
+
+
     
 
 #Регистрация авторизация

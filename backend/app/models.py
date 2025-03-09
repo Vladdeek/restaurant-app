@@ -24,6 +24,7 @@ class Orders(Base):
     id = Column(Integer, primary_key=True, index=True)
     order_num = Column(Integer)
     orders = Column(String)  # Массив чисел (ID блюд из Menu)
+    total_price = Column(Integer)
     status_id = Column(Integer, ForeignKey("Status.id"))  # Внешний ключ на статус заказа
 
     status = relationship("Status")  # Связь с таблицей Status

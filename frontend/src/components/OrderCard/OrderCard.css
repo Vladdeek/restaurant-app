@@ -1,0 +1,37 @@
+.order-card {
+	background-color: white;
+	border-radius: 15px;
+	padding: 2.5%;
+	height: 150px;
+}
+.order-status {
+	padding: 0 5px;
+	border-radius: 5px;
+	cursor: pointer;
+}
+#color0 {
+	background-color: #028aef;
+	color: #2b0c61;
+}
+
+#color1 {
+	background-color: #f1d021;
+	color: #5e4a30;
+}
+
+#color2 {
+	background-color: #6db25f;
+	color: #1b3f0e;
+}
+#on {
+	box-shadow: 0px 0px 15px rgba(2, 138, 239, 0.5);
+}
+#off {
+	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+.order-num {
+	font-weight: 600;
+	font-size: 20px;
+	padding: 0;
+	margin-right: 5% !important ;
+}

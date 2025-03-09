@@ -1,9 +1,8 @@
 import React from 'react'
 import '../menu-item-card/menu-item-card.css'
-import addIcon from '../../assets/images/plus.svg'
 import BrushStroke from '../../assets/images/grunge-brush-stroke.png'
 
-const MenuItemCard = ({ name, price, image }) => {
+const MenuItemCard = ({ name, price, image, btnIcon, btnFunc }) => {
 	return (
 		<div className='col-lg-3 col-md-4 col-sm-6'>
 			<div className='content'>
@@ -19,8 +18,9 @@ const MenuItemCard = ({ name, price, image }) => {
 					<button className='add-btn'>
 						<img
 							className='add-btn-img user-select-none'
-							src={addIcon}
+							src={btnIcon}
 							alt='...'
+							onClick={btnFunc}
 						/>
 					</button>
 				</div>

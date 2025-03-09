@@ -37,6 +37,7 @@ class OrdersBase(BaseModel):
     order_num: int
     orders: str  # Список ID блюд
     status_id: int         # ID статуса заказа
+    total_price: int  # Общая стоимость заказа (целое число)
 
 class OrdersCreate(OrdersBase):
     pass

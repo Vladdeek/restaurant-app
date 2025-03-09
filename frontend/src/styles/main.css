@@ -15,7 +15,7 @@ body {
 	position: relative;
 	width: 100%;
 }
-a {
+.header-link {
 	text-decoration: none;
 	color: white;
 	margin: 5%;

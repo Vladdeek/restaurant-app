@@ -1,14 +1,18 @@
 import React, { useState, useEffect } from 'react'
 import MenuItemCard from '../components/menu-item-card/menu-item-card'
 import noImage from '../assets/images/no_image.png'
+import addIcon from '../assets/images/plus.svg'
+import headerIcon from '../assets/images/cart-shopping-svgrepo-com.svg'
 import Search from '../components/search/search'
 import Header from '../components/header/header'
 
 const Menu = () => {
 	const [search, setSearch] = useState('')
 	const [menu, setMenu] = useState([])
+	const [cartItemsCount, setCartItemsCount] = useState({})
 
 	useEffect(() => {
+		// Загружаем меню
 		const fetchMenu = async () => {
 			try {
 				const url =
@@ -33,18 +37,60 @@ const Menu = () => {
 		fetchMenu()
 	}, [search])
 
+	useEffect(() => {
+		// Загружаем товары из localStorage и считаем их количество
+		const currentCart = JSON.parse(localStorage.getItem('cartItems')) || []
+		const countMap = {}
+
+		// Подсчитываем количество каждого товара в корзине
+		currentCart.forEach(id => {
+			countMap[id] = countMap[id] ? countMap[id] + 1 : 1
+		})
+
+		setCartItemsCount(countMap)
+	}, [])
+
+	// Функция для добавления товара в localStorage
+	const handleAddToCart = id => {
+		// Получаем текущие товары из localStorage, если их нет, то создаем новый массив
+		const currentCart = JSON.parse(localStorage.getItem('cartItems')) || []
+
+		// Добавляем новый товар в корзину
+		currentCart.push(id)
+
+		// Сохраняем обновленную корзину обратно в localStorage
+		localStorage.setItem('cartItems', JSON.stringify(currentCart))
+
+		// Обновляем количество товаров в корзине
+		setCartItemsCount(prevCount => ({
+			...prevCount,
+			[id]: (prevCount[id] || 0) + 1,
+		}))
+
+		alert('Товар добавлен в корзину!')
+	}
+
+	// Получаем общее количество товаров в корзине
+	const totalQuantity = Object.values(cartItemsCount).reduce(
+		(acc, quantity) => acc + quantity,
+		0
+	)
+
 	return (
 		<>
-			<Header />
+			<Header headerIcon={headerIcon} quantity={totalQuantity} />{' '}
+			{/* Передаем общее количество */}
 			<Search value={search} onChange={e => setSearch(e.target.value)} />
 			<div className='container'>
-				<div className='row '>
-					{menu.map((menu, index) => (
+				<div className='row'>
+					{menu.map(menuItem => (
 						<MenuItemCard
-							key={index}
-							price={menu.price}
-							name={menu.title}
-							image={menu.image_path}
+							key={menuItem.id}
+							price={menuItem.price}
+							name={menuItem.title}
+							image={menuItem.image_path}
+							btnIcon={addIcon}
+							btnFunc={() => handleAddToCart(menuItem.id)} // Передаем id товара в функцию
 						/>
 					))}
 				</div>
