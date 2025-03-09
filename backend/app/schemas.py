@@ -1,4 +1,6 @@
 from pydantic import BaseModel
+from typing import List
+
 
 
 #To-Do
@@ -14,10 +16,36 @@ class MenuCreate(MenuBase):
 
 class Menu(MenuBase):
     id: int
+
     class Config:
         orm_mode = True
 
-    
+class StatusBase(BaseModel):
+    status: str
+
+class StatusCreate(StatusBase):
+    pass
+
+class Status(StatusBase):
+    id: int
+
+    class Config:
+        orm_mode = True
+
+# Pydantic-схема для таблицы Orders
+class OrdersBase(BaseModel):
+    order_num: int
+    orders: str  # Список ID блюд
+    status_id: int         # ID статуса заказа
+
+class OrdersCreate(OrdersBase):
+    pass
+
+class Orders(OrdersBase):
+    id: int
+
+    class Config:
+        orm_mode = True
 
 #User 
 class UserBase(BaseModel):

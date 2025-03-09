@@ -1,3 +1,4 @@
+import random
 from fastapi import FastAPI, HTTPException, Path, Query, Body, Depends
 from typing import Optional, List, Dict, Annotated
 from sqlalchemy.orm import Session
@@ -6,8 +7,8 @@ from passlib.context import CryptContext # библиотека для ХЕША 
 
 #импорт наших классов
 from .database import engine, session_local
-from .models import Base, Menu, User
-from .schemas import MenuCreate, Menu as DbMenu, UserCreate, User as DbUser
+from .models import Base, Menu, Orders, User
+from .schemas import MenuCreate, Menu as DbMenu, UserCreate, User as DbUser, OrdersCreate, Orders as DbOrders
 
 
 app = FastAPI()
@@ -29,6 +30,14 @@ Base.metadata.create_all(bind=engine)
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto") #Настройка контекста для bcrypt
 
+# функция генерации уникального 6-значного номера для номера заказа
+def generate_unique_order_number(db: Session) -> int:
+    """Генерирует случайный 6-значный номер и проверяет, что он уникален в БД."""
+    while True:
+        order_num = random.randint(100000, 999999)  # Генерируем случайное 6-значное число
+        existing_order = db.query(Orders).filter(Orders.order_num == order_num).first()
+        if not existing_order:
+            return order_num  # Если номер уникален, возвращаем его
 
 # функция ХЕШИРОВАНИЯ 
 def hash_password(password: str) -> str:
@@ -72,13 +81,38 @@ def search_menu(query: str = Query("", min_length=1), db: Session = Depends(get_
 @app.get("/get_menu/{id}", response_model=DbMenu)
 async def get_menu_item(id: int, db: Session = Depends(get_db)):
     menu_item = db.query(Menu).filter(Menu.id == id).first()
-    
     if menu_item is None:
         raise HTTPException(status_code=404, detail="Меню не найдено")
-    
     return menu_item
 
+@app.get("/get_orders/", response_model=List[DbOrders])
+async def orders(db: Session = Depends(get_db)):
+    orderlist = db.query(Orders).filter(Orders.status_id != 4).all()
+    return orderlist  # Возвращаем задачи
 
+@app.get("/get_order/{id}", response_model=DbOrders)
+async def get_order_item(id: int, db: Session = Depends(get_db)):
+    order = db.query(Orders).filter(Orders.id == id).first()
+    if order is None:
+        raise HTTPException(status_code=404, detail="Заказ не найдет")
+    return order
+
+@app.get("/get_done_orders/", response_model=List[DbOrders])
+async def done_orders(db: Session = Depends(get_db)):
+    doneorderlist = db.query(Orders).filter(Orders.status_id == 4).all()
+    return doneorderlist  # Возвращаем задачи
+
+@app.post("/post_order/", response_model=DbOrders)
+async def post_order(order: OrdersCreate, db: Session = Depends(get_db)):
+    unique_order_num = generate_unique_order_number(db)  # Генерируем уникальный номер
+    
+    db_order = Orders(order_num=unique_order_num, status_id=order.status_id, orders=order.orders )  # Используем сгенерированный номер
+    db.add(db_order)
+    db.commit()
+    db.refresh(db_order)
+
+    return db_order
+    
 
 #Регистрация авторизация
 @app.post("/users/", response_model=DbUser)

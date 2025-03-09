@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, ForeignKey #ForeignKey будет ссылаться на поле из другой таблицы 
+from sqlalchemy import Column, Integer, String, ForeignKey, ARRAY #ForeignKey будет ссылаться на поле из другой таблицы 
 from sqlalchemy.orm import relationship # для создания связи между полями 
 from .database import Base # все наше подключение которое которое на основе наших моделей создает таблицы в БД
 
@@ -12,14 +12,21 @@ class Menu(Base):
     image_path = Column(String)  # Путь к изображению
     description = Column(String)
 
+class Status(Base):
+    __tablename__ = "Status"
 
+    id = Column(Integer, primary_key=True, index=True)# index=True - поиск по этому столбцу
+    status = Column(String)
+    
+class Orders(Base):
+    __tablename__ = "Orders"  # Исправил название таблицы
 
-    #user_name = Column(String, ForeignKey("users.name"))  # Теперь внешний ключ - имя пользователя
+    id = Column(Integer, primary_key=True, index=True)
+    order_num = Column(Integer)
+    orders = Column(String)  # Массив чисел (ID блюд из Menu)
+    status_id = Column(Integer, ForeignKey("Status.id"))  # Внешний ключ на статус заказа
 
-    # Связь с моделью User
-    #user = relationship("User", back_populates="todos")  # Связь с задачами пользователя
-
-
+    status = relationship("Status")  # Связь с таблицей Status
 
 #User
 class User(Base):
