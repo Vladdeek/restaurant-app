@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
-import OrderCard from '../components/OrderCard/OrderCard'
-import '../styles/Orders.css'
 
-const Orders = () => {
+const Check = () => {
 	const [orders, setOrders] = useState([])
 
 	useEffect(() => {
@@ -72,28 +69,18 @@ const Orders = () => {
 	}
 
 	return (
-		<>
-			<header className='orders-header d-flex align-items-center'>
-				<Link className='orders-link' to='/done-orders'>
-					Завершенные заказы
-				</Link>
-			</header>
-			<div className='container'>
-				<div className='row '>
-					{orders.map((order, index) => (
-						<OrderCard
-							key={index}
-							order_num={order.order_num}
-							order={order.order} // Здесь уже названия блюд
-							order_status={order.order_status}
-							status_id={order.status_id}
-							id={order.id}
-						/>
-					))}
-				</div>
+		<div className='container'>
+			<div className='row'>
+				{orders.map((order, index) => (
+					<div key={index}>
+						<p>Номер заказа: {order.order_num}</p>
+						<p>Заказ: {order.order}</p>
+						<hr />
+					</div>
+				))}
 			</div>
-		</>
+		</div>
 	)
 }
 
-export default Orders
+export default Check

@@ -1,0 +1,8 @@
+.create-order-btn {
+	background-color: red;
+	color: white;
+	border-radius: 10px;
+	padding: 5px 10px;
+	border: none;
+	font-size: 20px;
+}

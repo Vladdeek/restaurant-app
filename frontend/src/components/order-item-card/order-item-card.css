@@ -1,0 +1,42 @@
+.order-item-card {
+	box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.075) !important;
+	border-radius: 15px;
+	position: relative;
+	margin-top: 5%;
+	background-color: white;
+	height: 150px;
+}
+.oic-image {
+	border-radius: 7px;
+	height: 100%;
+	aspect-ratio: 1 / 1;
+	object-fit: cover;
+}
+.oic-name {
+	font-weight: 600;
+	font-size: 25px;
+	white-space: nowrap;
+}
+.oic-price {
+	color: black;
+	font-weight: 800;
+	font-size: 27px;
+	white-space: nowrap;
+	width: auto;
+	z-index: 1; /* Поднимаем текст над картинкой */
+}
+.add-btn {
+	background-color: rgb(222, 0, 0);
+	border-radius: 7px;
+	border: none;
+	height: 40px;
+	width: 40px;
+	padding: 0;
+	&:active {
+		transform: scale(0.95);
+	}
+	transition: 0.2s;
+}
+.add-btn-img {
+	width: 100%;
+}

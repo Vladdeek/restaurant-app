@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import OrderCard from '../components/OrderCard/OrderCard'
+import '../styles/Orders.css'
 
 const DoneOrders = () => {
 	const [orders, setOrders] = useState([])
@@ -65,6 +67,11 @@ const DoneOrders = () => {
 
 	return (
 		<>
+			<header className='orders-header d-flex align-items-center'>
+				<Link className='orders-link' to='/orders'>
+					Заказы
+				</Link>
+			</header>
 			<div className='container'>
 				<div className='row '>
 					{orders.map((order, index) => (

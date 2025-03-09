@@ -1,1 +1,12 @@
-
+.orders-link {
+	color: white;
+	font-weight: 600;
+	background-color: black;
+	padding: 5px 10px;
+	border-radius: 10px;
+}
+.orders-header {
+	box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.125);
+	height: 50px;
+	margin-bottom: 5%;
+}

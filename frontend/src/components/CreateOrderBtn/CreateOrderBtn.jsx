@@ -1,6 +1,8 @@
-import React, { useState } from 'react'
+import React from 'react'
+import { Link } from 'react-router-dom'
+import '../CreateOrderBtn/CreateOrderBtn.css'
 
-const CreateOrderBtn = ({}) => {
+const CreateOrderBtn = () => {
 	const handleCreateOrder = async () => {
 		try {
 			// Извлекаем массив товаров из localStorage
@@ -23,16 +25,15 @@ const CreateOrderBtn = ({}) => {
 				return
 			}
 
-			const totalPrice = Math.floor(dataPrice.total_price) // Если сервер возвращает цену как строку, можно преобразовать в целое число
+			const totalPrice = Math.floor(dataPrice.total_price) // Округляем цену до целого
 
 			// Создание заказа
 			const orderData = {
 				order_num: 0,
 				status_id: 0, // Статус заказа (например, 0 - новый)
-				orders: JSON.stringify(cartItemsArray), // Массив товаров в виде строки
-				total_price: totalPrice, // Цена из запроса, передается как целое число
+				orders: JSON.stringify(cartItemsArray),
+				total_price: totalPrice,
 			}
-			console.log(orderData)
 
 			const responseOrder = await fetch('/post_order/', {
 				method: 'POST',
@@ -49,8 +50,11 @@ const CreateOrderBtn = ({}) => {
 				return
 			}
 
-			// Если заказ создан успешно, можно вывести сообщение или редирект
-			console.log(`Заказ успешно создан! Номер заказа: ${dataOrder.order_num}`)
+			// Очистка корзины после успешного создания заказа
+			localStorage.removeItem('cartItems')
+
+			// Уведомление пользователя
+			alert(`Заказ успешно создан! Номер заказа: ${dataOrder.order_num}`)
 		} catch (error) {
 			console.error('Ошибка при создании заказа:', error)
 			console.log('Произошла ошибка при создании заказа')
@@ -58,9 +62,9 @@ const CreateOrderBtn = ({}) => {
 	}
 
 	return (
-		<button className='create-order-btn' onClick={handleCreateOrder}>
+		<Link className='create-order-btn' to='/' onClick={handleCreateOrder}>
 			Заказать
-		</button>
+		</Link>
 	)
 }
 

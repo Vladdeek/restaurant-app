@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import MenuItemCard from '../components/menu-item-card/menu-item-card'
+import OrderItemCard from '../components/order-item-card/order-item-card'
 import noImage from '../assets/images/no_image.png'
 import delIcon from '../assets/images/del.svg'
 import headerIcon from '../assets/images/back-svgrepo-com.svg'
@@ -96,30 +96,32 @@ const Cart = () => {
 		<>
 			<Header headerIcon={headerIcon} />
 			<div className='container'>
-				<div className='row'>
-					{cartItems.length > 0 ? (
-						cartItems.map(item => (
-							<MenuItemCard
-								key={item.id}
-								price={item.price}
-								name={item.title}
-								image={item.image_path || noImage}
-								btnIcon={delIcon}
-								btnFunc={() => handleRemoveItem(item.id)} // Передаем id для удаления
-							/>
-						))
-					) : (
-						<p className='EmptyCart text-center'>Корзина пуста</p>
-					)}
+				<div className='row d-flex justify-content-center'>
+					<div className='col-7'>
+						{cartItems.length > 0 ? (
+							cartItems.map(item => (
+								<OrderItemCard
+									key={item.id}
+									price={item.price}
+									name={item.title}
+									image={item.image_path || noImage}
+									btnIcon={delIcon}
+									btnFunc={() => handleRemoveItem(item.id)} // Передаем id для удаления
+								/>
+							))
+						) : (
+							<p className='EmptyCart text-center'>Корзина пуста</p>
+						)}
 
-					{/* Блок с кнопкой и итоговой ценой, показываем только если в корзине есть товары */}
-					{cartItems.length > 0 && (
-						<div className='cart-footer'>
-							{/* Показываем цену, если она загружена */}
-							<p className='EmptyCart text-center'>{`${totalPrice} руб`}</p>
-							<CreateOrderBtn />
-						</div>
-					)}
+						{/* Блок с кнопкой и итоговой ценой, показываем только если в корзине есть товары */}
+						{cartItems.length > 0 && (
+							<div className='col-12 d-flex flex-column align-items-center'>
+								{/* Показываем цену, если она загружена */}
+								<p className='EmptyCart text-center'>{`${totalPrice} руб`}</p>
+								<CreateOrderBtn />
+							</div>
+						)}
+					</div>
 				</div>
 			</div>
 		</>

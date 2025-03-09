@@ -8,6 +8,7 @@ import Main from './pages/Main'
 import Cart from './pages/Cart'
 import Orders from './pages/Orders'
 import DoneOrders from './pages/DoneOrders'
+import Check from './pages/check'
 import Footer from './components/footer/footer'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
@@ -28,6 +29,9 @@ root.render(
 
 			{/* Страница готовых заказов */}
 			<Route path='/done-orders' element={<DoneOrders />} />
+
+			{/* Страница чека */}
+			<Route path='/check' element={<Check />} />
 		</Routes>
 		<Footer />
 	</Router>
